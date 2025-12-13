@@ -1,4 +1,4 @@
-lines = [line.strip() for line in open("Day01.txt", "r")]
+lines = [line.strip() for line in open("inputs/Day01.txt", "r")]
 
 def partOne():
     current = 50

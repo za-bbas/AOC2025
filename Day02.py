@@ -1,4 +1,4 @@
-with open("Day02.txt", "r") as f:
+with open("inputs/Day02.txt", "r") as f:
     line = f.readline().strip()
 
 def partOne():
