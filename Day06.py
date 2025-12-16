@@ -1,5 +1,4 @@
-lines = [line.strip() for line in open("inputs/test.txt", "r")]
-
+lines = open("inputs/Day06.txt").read().splitlines()
 def partOne():
     equations = [line.split() for line in lines]
     count = 0
@@ -14,4 +13,27 @@ def partOne():
         count += temp
     print(count)
 
+def partTwo():
+    transpose = list(map(list, zip(*lines)))
+    count = 0
+    temp = 0
+    add = False
+    for row in transpose:
+        if not ''.join(row[0:4]).strip(): #note that sample input only goes to 3, not 4
+            continue
+        a = int(''.join(row[0:4]).strip())
+        if '+' in row or '*' in row:
+            count += temp
+            temp = a 
+            add = False
+            if '+' in row: add = True
+        elif add:
+            temp += a
+        else:
+            temp *= a
+    count += temp
+    print(count)
+
+
 partOne()
+partTwo()
