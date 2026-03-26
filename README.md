@@ -1,0 +1,1 @@
+My Python code for Advent of Code 2025. Will be updated when I feel like.
