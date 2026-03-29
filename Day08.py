@@ -45,23 +45,29 @@ class unionFind:
         lengths = [len(s) for s in self.sets]
         lengths.sort(reverse=True)
         return lengths[0] * lengths[1] * lengths[2]
+    def largestSet(self):
+        if self.sets:
+            lengths = [len(s) for s in self.sets]
+            lengths.sort(reverse=True)
+            return lengths[0]
+        else:
+            return 0
     def __str__(self):
         return self.sets
 
 lines = [line.strip() for line in open("inputs/Day08.txt", "r")]
 cleaned_lines =  [tuple(map(int, line.split(","))) for line in lines] # I hate python
+results = []
+    
+for (i, p1), (j, p2) in combinations(enumerate(cleaned_lines), 2):
+    # order by square of distance so we don't have annoying FP issues
+    dist = (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2 + (p1[2] - p2[2])**2
+    results.append((dist, i, j, p1, p2))    
+results.sort(key=lambda x: x[0])
 
 def partOne():
     circuits = unionFind()
-    results = []
     
-    for (i, p1), (j, p2) in combinations(enumerate(cleaned_lines), 2):
-        # order by square of distance so we don't have annoying FP issues
-        dist = (p1[0] - p2[0])**2 + (p1[1] - p2[1])**2 + (p1[2] - p2[2])**2
-        results.append((dist, i, j, p1, p2))
-    
-    results.sort(key=lambda x: x[0])
-
     for i in range(1000):
         d, x, y, p1, p2 = results[i]
         circuits.add((x, y))
@@ -69,6 +75,17 @@ def partOne():
 
 def partTwo():
     # so it needs to connect ALL of them into one circuit?
-    print('Hello, World!')
+    # maybe just keep going until the longest circuit has 1000 elements...
+    circuits = unionFind()
+    x1 = x2 = -1
+    i = 0
+    while circuits.largestSet() < 1000:
+        d, x, y, p1, p2 = results[i]
+        circuits.add((x, y))
+        x1, y1, z1 = p1
+        x2, y2, z2 = p2
+        i += 1
+    print(x1 * x2)
 
 partOne()
+partTwo()
